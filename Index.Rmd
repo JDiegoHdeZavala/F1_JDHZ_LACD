@@ -1,0 +1,220 @@
+---
+title: "Index"
+author: "Juan Diego Hdez. Zavala"
+date: "2023-12-13"
+output: html_document
+---
+# Problemas de Valor Futuro
+## Problema 1
+
+Una persona desea ahorrar $500.00 cada fin de quincena durante 40 años. Si el fondo de inversión paga una tasa de rendimiento de 7.5% ¿Cuánto dinero tendrá ahorrado al final de su proyecto financiero?
+```{r}
+VFVenc = function(A, t, r){
+  VF = A*((1+r)**t-1)/r
+  return(VF)
+}
+VFVenc(500, 40*24,0.075/24)
+```
+## Problema 2
+
+Una persona desea acumular $3,038,688. Si el fondo de inversión paga una tasa de rendimiento de 7.5% ¿Cuánto dinero debe ahorrar cada fin de quincena durante 40 años?
+```{r}
+PagoVFVenc =  function(VF, t, r){
+  A =  r*VF/((1+r)**t-1)
+  return(A)
+}
+PagoVFVenc(3038688, 40*24, 0.075/24)
+```
+## Problema 3
+
+Una persona desea acumular $3,038,688. Si abona cada fin de quincena 500 pesos por 40 años ¿De cuánto debe ser la tasa de interés?
+```{r}
+TasaVFVenc = function(VF, A, t){
+  aprox = VF + 1
+  VF2 = 0
+  i = 1
+  while(VF/10000 < aprox){
+    r = i/1000000
+    VF2 = A*((1+r)**t-1)/r
+    aprox = abs(VF-VF2)
+    i = i + 1
+  }
+  return(r*100*24)
+}
+TasaVFVenc(3038688, 500, 40*24)
+```
+## Problema 4
+
+Una persona desea acumular $3,038,688. Si abona cada fin de quincena 500 pesos a una tasa de 7.5% ¿Cuánto tiempo pasará hasta acumular su monto?
+```{r}
+PeriodosVFVenc = function(VF, A, r){
+  t = log(1+r*VF/A)/log(1+r)
+  return(t/24)
+}
+PeriodosVFVenc(3038688, 500, 0.075/24)
+```
+## Problema 5
+
+Una persona desea ahorrar $500.00 cada inicio de quincena durante 40 años. Si el fondo de inversión paga una tasa de rendimiento de 7.5% ¿Cuánto dinero tendrá ahorrado al final de su proyecto financiero?
+```{r}
+VFAnt = function(A, t, r){
+  VF = (1+r)*A*((1+r)**t-1)/r
+  return(VF)
+}
+VFAnt(500, 40*24, 0.075/24)
+```
+## Problema 6
+
+Una persona desea acumular $3,038,688. Si el fondo de inversión paga una tasa de rendimiento de 7.5% ¿Cuánto dinero debe ahorrar cada inicio de quincena durante 40 años?
+```{r}
+PagoVFAnt =  function(VF, t, r){
+  A =  r*VF/(((1+r)**t-1)*(1+r))
+  return(A)
+}
+PagoVFAnt(3048184, 40*24, 0.075/24)
+```
+## Problema 7
+
+Una persona desea acumular $3,038,688. Si abona cada inicio de quincena 500 pesos por 40 años ¿De cuánto debe ser la tasa de interés?
+```{r}
+TasaVFAnt = function(VF, A, t){
+  aprox = VF + 1
+  VF2 = 0
+  i = 1
+  while(VF/10000 < aprox){
+    r = i/1000000
+    VF2 = (1+r)*A*((1+r)**t-1)/r
+    aprox = abs(VF-VF2)
+    i = i + 1
+  }
+  return(r*100*24)
+}
+TasaVFAnt(3048184, 500, 40*24)
+```
+## Problema 8
+
+Una persona desea acumular $3,038,688. Si abona cada inicio de quincena 500 pesos a una tasa de 7.5% ¿Cuánto tiempo pasará hasta acumular su monto?
+```{r}
+PeriodosVFAnt = function(VF, A, r){
+  t = log(1+r*VF/(A*(1+r)))/log(1+r)
+  return(t/24)
+}
+PeriodosVFAnt(3048184, 500, 0.075/24)
+```
+## Problema 9
+
+Una persona paga al final cada quincena $450.00 durante 2 años. Si la tienda departamental le cobra de 11% de interés ¿Cuánto le prestaron?
+```{r}
+VAVenc = function(A, t, r){
+  VA = A*(1-(1+r)**-t)/r
+  return(VA)
+}
+VAVenc(450.00, 2*24, 0.11/24)
+```
+## Problema 10 
+
+Una persona debe $19,349.45. Si la tienda departamental le cobra de 11% de interés durante 2 años ¿Cuánto abona al final de cada quincena?
+```{r}
+PagoVAVenc =  function(VA, t, r){
+  A =  r*VA/(1-(1+r)**-t)
+  return(A)
+}
+PagoVAVenc(19349.45, 2*24, 0.11/24)
+```
+## Problema 11
+
+Una persona debe $19,349.45. Si abona 450 pesos al final de cada quincena durante 2 años ¿Cuánta es la tasa de interés que cobra la tienda departamental?
+```{r}
+TasaVAVenc = function(VA, A, t){
+  aprox = VA + 1
+  VA2 = 0
+  i = 1
+  while(VA/10000 < aprox){
+    r = i/1000000
+    VA2 = A*(1-(1+r)**-t)/r
+    aprox = abs(VA-VA2)
+    i = i + 1
+  }
+  return(r*24*100)
+}
+TasaVAVenc(19349.45, 450, 2*24)
+```
+## Problema 12
+
+Una persona debe $19,349.45. Si abona 450 pesos al final de cada quincena a una tasa de 11% ¿En cuánto tiempo terminará de pagar?
+```{r}
+PeriodosVAVenc = function(VA, A, r){
+  t = -log(1-VA/A*r)/log(1+r)
+  return(t/24)
+}
+PeriodosVAVenc(19349.45, 450, 0.11/24)
+```
+## Problema 13
+
+Una persona paga al inicio de cada quincena $450.00 durante 2 años. Si la tienda departamental le cobra de 11% de interés ¿Cuánto le prestaron?
+```{r}
+VAAnt = function(A, t, r){
+  VA = A*((1-(1+r)**-t)/r)*(1+r)
+  return(VA)
+}
+VAAnt(450, 2*24, 0.11/24)
+```
+## Problema 14
+
+Una persona debe $19,438.13. Si la tienda departamental le cobra de 11% de interés durante 2 años ¿Cuánto abona al inicio de cada quincena?
+```{r}
+PagoVAAnt =  function(VA, t, r){
+  A =  r*VA/((1-(1+r)**-t)*(1+r))
+  return(A)
+}
+PagoVAAnt(19438.13, 2*24, 0.11/24)
+```
+## Problema 15 
+
+Una persona debe $19,349.45. Si abona 450 pesos al inicio de cada quincena durante 2 años ¿Cuánta es la tasa de interés que cobra la tienda departamental?
+```{r}
+TasaVAAnt = function(VA, A, t){
+  aprox = VA + 1
+  VA2 = 0
+  i = 1
+  while(VA/10000 < aprox){
+    r = i/1000000000
+    VA2 = A*((1-(1+r)**-t)/r)*(1+r)
+    aprox = abs(VA-VA2)
+    i = i + 1
+  }
+  return(r*100*24)
+}
+TasaVAAnt(19438.13, 450, 2*24)
+```
+## Problema 16
+
+Una persona debe $19,349.45. Si abona 450 pesos al inicio de cada quincena a una tasa de 11% ¿En cuánto tiempo terminará de pagar
+```{r}
+PeriodosVAAnt = function(VA, A, r){
+  t = -log(1-r*VA/(A*(1+r)))/log(1+r)
+  return(t/24)
+}
+PeriodosVAAnt(19349.45, 450, 0.11/24)
+```
+## Problema 17
+
+¿Cuánto le prestaron si comienza a pagar 3 meses después de adquirido el financiamiento?
+```{r}
+VADif = function(A, r, t, G){
+  VA= (A*(1-(1+r)**-t)/r)/(1+r)**G
+  return(VA)
+}
+VADif(450, 0.11/24, 2*24, 1*24/4)
+```
+## Problema 18
+
+¿De cuánto es el abono quincenal de su préstamo de $18,825.77 a 11% de tasa de interés por 2 años si lo empieza a pagar 3 meses después?
+```{r}
+PagoVADif = function(VA, t, r, G){
+  VA= VA*(1+r)**G
+  A = r*VA/(1-(1+r)**-t)
+  return(A)
+}
+PagoVADif (18825.77, 2*24, 0.11/24, 1*24/4)
+```
